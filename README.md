@@ -1,2 +1,2 @@
 
-[![Build Status](https://travis-ci.org/brharrington/snap-plugin-publisher-file.svg)](https://travis-ci.org/brharrington/snap-plugin-publisher-file/builds)
+[![Build Status](https://travis-ci.org/brharrington/snap-plugin-collector-file.svg)](https://travis-ci.org/brharrington/snap-plugin-collector-file/builds)
