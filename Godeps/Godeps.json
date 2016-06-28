@@ -2,6 +2,9 @@
 	"ImportPath": "github.com/brharrington/snap-plugin-collector-file",
 	"GoVersion": "go1.6",
 	"GodepVersion": "v74",
+	"Packages": [
+		"./..."
+	],
 	"Deps": [
 		{
 			"ImportPath": "github.com/Sirupsen/logrus",
@@ -12,6 +15,10 @@
 			"ImportPath": "github.com/gopherjs/gopherjs/js",
 			"Comment": "go1.5-72-g244fe96",
 			"Rev": "244fe9679be7b935139f27fca1c190b7c3ee28fa"
+		},
+		{
+			"ImportPath": "github.com/intelsdi-x/snap-plugin-utilities/config",
+			"Rev": "0b327aae781a2e94b414be121d5ac4668750156c"
 		},
 		{
 			"ImportPath": "github.com/intelsdi-x/snap/control/plugin",

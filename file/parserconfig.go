@@ -5,18 +5,18 @@ import (
 )
 
 type parserConfig struct {
-	format string
+	Format    string     `json:"format"`
 
-	columns []string
+	Columns   []string   `json:"columns"`
 
-	recordSep string
+	RecordSep string     `json:"record_sep"`
 
-	fieldSep string
+	FieldSep  string     `json:"field_sep"`
 
 	// Regular expression used to extract values for the 'regex' format.
-	pattern string
+	Pattern   string     `json:"pattern"`
 
-	skip uint32
+	Skip      uint32     `json:"skip"`
 }
 
 func defaultKeyValueConfig() parserConfig {
@@ -68,5 +68,5 @@ func newRegexpConfig(columns []string, pattern string) parserConfig {
 }
 
 func (c parserConfig) regexp() *regexp.Regexp {
-	return regexp.MustCompile(c.pattern)
+	return regexp.MustCompile(c.Pattern)
 }

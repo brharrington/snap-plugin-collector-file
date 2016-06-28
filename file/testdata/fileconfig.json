@@ -1,0 +1,37 @@
+[
+  {
+    "file": "testdata/cpuinfo",
+    "metrics": {
+      "/test/cpu/{processor}/model_name": "{model name}",
+      "/test/cpu/{processor}/cpu_MHz":    "{cpu MHz}",
+      "/test/cpu/{processor}/cache_size": "{cache size}"
+    },
+    "parser": {
+      "format": "key-value",
+      "field_sep": ":",
+      "record_sep": "\n\n"
+    }
+  },
+  {
+    "file": "testdata/loadavg",
+    "metrics": {
+      "/test/load/avg01m": "{1m},100,:div",
+      "/test/load/avg05m": "{5m},100,:mul",
+      "/test/load/avg15m": "{15m},1e2,:mul"
+    },
+    "parser": {
+      "format": "table",
+      "columns": ["1m", "5m", "15m", "running/total", "last_pid"]
+    }
+  },
+  {
+    "file": "testdata/cgroup/cpu/*/cpu.shares",
+    "metrics": {
+      "/test/docker/{container:path:-2}/cpu_shares": "{cpu_shares}"
+    },
+    "parser": {
+      "format": "table",
+      "columns": ["cpu_shares"]
+    }
+  }
+]

@@ -28,17 +28,17 @@ func (p parser) parseFile(file string) ([]map[string]interface{}, error) {
 }
 
 func (p parser) parseString(data string) ([]map[string]interface{}, error) {
-	switch p.config.format {
+	switch p.config.Format {
 	case "table":
-		return parseTable(data, p.config.columns, p.config.skip)
+		return parseTable(data, p.config.Columns, p.config.Skip)
 	case "key-value":
-		return parseKeyValueList(data, p.config.recordSep, p.config.fieldSep), nil
+		return parseKeyValueList(data, p.config.RecordSep, p.config.FieldSep), nil
 	case "key-row":
 		return parseKeyRow(data)
 	case "regexp":
-		return parseRegexp(data, p.config.recordSep, p.config.columns, p.config.regexp())
+		return parseRegexp(data, p.config.RecordSep, p.config.Columns, p.config.regexp())
 	default:
-		return nil, errors.New(fmt.Sprintf("unknown file format: '%v'", p.config.format))
+		return nil, errors.New(fmt.Sprintf("unknown file format: '%v'", p.config.Format))
 	}
 }
 

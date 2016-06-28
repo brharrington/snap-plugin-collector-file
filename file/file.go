@@ -21,6 +21,9 @@ import (
 
 	"github.com/intelsdi-x/snap/control/plugin"
 	"github.com/intelsdi-x/snap/control/plugin/cpolicy"
+	"github.com/intelsdi-x/snap/core/ctypes"
+	"github.com/intelsdi-x/snap-plugin-utilities/config"
+	"fmt"
 )
 
 const (
@@ -32,6 +35,8 @@ const (
 var _ plugin.CollectorPlugin = (*fileCollector)(nil)
 
 type fileCollector struct {
+	initialized bool
+	fileConfigs []fileConfig
 }
 
 func NewFileCollector() *fileCollector {
@@ -48,18 +53,51 @@ func Meta() *plugin.PluginMeta {
 }
 
 func (f *fileCollector) CollectMetrics(metrics []plugin.MetricType) ([]plugin.MetricType, error) {
-	return nil, nil
+
+	metricTypes := []plugin.MetricType{}
+
+	if !f.initialized {
+		setfile, err := config.GetConfigItem(metrics[0], "setfile")
+		if err != nil {
+			return nil, err
+		}
+
+		fileConfigs, err := fromJsonFile(setfile.(string))
+		if err != nil {
+			return nil, err
+		}
+		f.fileConfigs = *fileConfigs
+	}
+
+	for _, cfg := range f.fileConfigs {
+		mts, err := cfg.collectMetrics(metrics)
+		handleErr(err)
+		metricTypes = append(metricTypes, mts...)
+	}
+
+	return metricTypes, nil
 }
 
 func (f *fileCollector) GetMetricTypes(config plugin.ConfigType) ([]plugin.MetricType, error) {
+	table := config.Table()
+	fileset := table["setfile"].(ctypes.ConfigValueStr).Value
+	fileConfigs, err := fromJsonFile(fileset)
+	handleErr(err)
+  f.fileConfigs = *fileConfigs
+
 	metricTypes := []plugin.MetricType{}
+	for _, cfg := range *fileConfigs {
+		mts, err := cfg.getMetricTypes()
+		handleErr(err)
+		metricTypes = append(metricTypes, mts...)
+	}
 	return metricTypes, nil
 
 }
 
 func (f *fileCollector) GetConfigPolicy() (*cpolicy.ConfigPolicy, error) {
 
-	r1, err := cpolicy.NewStringRule("file", true)
+	r1, err := cpolicy.NewStringRule("setfile", true)
 	handleErr(err)
 	r1.Description = "Main configuration file for the plugin."
 
