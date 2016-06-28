@@ -1,5 +1,5 @@
 {
-	"ImportPath": "github.com/brharrington/snap-plugin-publisher-atlas",
+	"ImportPath": "github.com/brharrington/snap-plugin-collector-file",
 	"GoVersion": "go1.6",
 	"GodepVersion": "v74",
 	"Deps": [
