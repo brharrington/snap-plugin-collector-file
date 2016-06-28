@@ -34,7 +34,7 @@ var _ plugin.CollectorPlugin = (*fileCollector)(nil)
 type fileCollector struct {
 }
 
-func NewFilePublisher() *fileCollector {
+func NewFileCollector() *fileCollector {
 	return &fileCollector{}
 }
 
