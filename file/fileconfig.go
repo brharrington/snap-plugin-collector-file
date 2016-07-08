@@ -11,6 +11,7 @@ import (
 	"path/filepath"
 	"strconv"
 	"time"
+	log "github.com/Sirupsen/logrus"
 )
 
 type fileConfig struct {
@@ -155,16 +156,16 @@ func createMetric(file string, vars map[string]interface{}, ns core.Namespace, v
 	return m, nil
 }
 
-func (c fileConfig) collectMetrics(queries []plugin.MetricType) ([]plugin.MetricType, error) {
+func (c fileConfig) collectMetrics(logger *log.Logger, queries []plugin.MetricType) ([]plugin.MetricType, error) {
 	data := []plugin.MetricType{}
 	files, err := filepath.Glob(c.File)
 	if err != nil {
 		return nil, err
 	}
-	fmt.Printf("loading files matching pattern [%s]: %v", c.File, files)
+	logger.Debugf("loading %v files matching pattern '%s'", len(files), c.File)
 
 	for _, file := range files {
-		fmt.Printf("loading file %s", file)
+		logger.Debugf("loading file %s", file)
 		parser := newParser(c.Parser)
 		records, err := parser.parseFile(file)
 		if err != nil {

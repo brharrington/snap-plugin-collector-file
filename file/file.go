@@ -17,13 +17,12 @@ package file
 
 import (
 
-	//log "github.com/Sirupsen/logrus"
+	log "github.com/Sirupsen/logrus"
 
 	"github.com/intelsdi-x/snap/control/plugin"
 	"github.com/intelsdi-x/snap/control/plugin/cpolicy"
 	"github.com/intelsdi-x/snap/core/ctypes"
 	"github.com/intelsdi-x/snap-plugin-utilities/config"
-	"fmt"
 )
 
 const (
@@ -54,6 +53,8 @@ func Meta() *plugin.PluginMeta {
 
 func (f *fileCollector) CollectMetrics(metrics []plugin.MetricType) ([]plugin.MetricType, error) {
 
+	logger := log.New()
+
 	metricTypes := []plugin.MetricType{}
 
 	if !f.initialized {
@@ -70,7 +71,7 @@ func (f *fileCollector) CollectMetrics(metrics []plugin.MetricType) ([]plugin.Me
 	}
 
 	for _, cfg := range f.fileConfigs {
-		mts, err := cfg.collectMetrics(metrics)
+		mts, err := cfg.collectMetrics(logger, metrics)
 		handleErr(err)
 		metricTypes = append(metricTypes, mts...)
 	}
