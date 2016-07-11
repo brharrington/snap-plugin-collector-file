@@ -1,0 +1,212 @@
+[
+  {
+    "file": "/sys/fs/cgroup/cpu/docker/*/cpu.shares",
+    "metrics": {
+      "/netflix/linux/docker/{container:path:-2}/cpu/shares": "{value}"
+    },
+    "tags": {
+      "name": "cgroup.cpu.shares",
+      "atlas.dstype": "gauge"
+    },
+    "parser": {
+      "format": "table",
+      "columns": [
+        "value"
+      ]
+    }
+  },
+  {
+    "file": "/sys/fs/cgroup/cpu/docker/*/cpu.shares",
+    "metrics": {
+      "/netflix/linux/docker/{container:path:-2}/cpu/processing_capacity": "{value},1000,:div"
+    },
+    "tags": {
+      "name": "cgroup.cpu.processingCapacity",
+      "atlas.dstype": "gauge"
+    },
+    "parser": {
+      "format": "table",
+      "columns": [
+        "value"
+      ]
+    }
+  },
+  {
+    "file": "/sys/fs/cgroup/cpuacct/docker/*/cpuacct.usage",
+    "metrics": {
+      "/netflix/linux/docker/{container:path:-2}/cpu/processing_time": "{value},1e9,:div"
+    },
+    "tags": {
+      "name": "cgroup.cpu.processingTime",
+      "atlas.dstype": "counter"
+    },
+    "parser": {
+      "format": "table",
+      "columns": [
+        "value"
+      ]
+    }
+  },
+  {
+    "file": "/sys/fs/cgroup/cpuacct/docker/*/cpuacct.stat",
+    "metrics": {
+      "/netflix/linux/docker/{container:path:-2}/cpu/{key}/usage": "{value},100,:div"
+    },
+    "tags": {
+      "name": "cgroup.cpu.usageTime",
+      "id": "{key}",
+      "atlas.dstype": "counter"
+    },
+    "parser": {
+      "format": "table",
+      "columns": [
+        "key",
+        "value"
+      ]
+    }
+  },
+  {
+    "file": "/sys/fs/cgroup/memory/docker/*/memory.usage_in_bytes",
+    "metrics": {
+      "/netflix/linux/docker/{container:path:-2}/memory/usage": "{value}"
+    },
+    "tags": {
+      "name": "cgroup.mem.used",
+      "atlas.dstype": "gauge"
+    },
+    "parser": {
+      "format": "table",
+      "columns": [
+        "value"
+      ]
+    }
+  },
+  {
+    "file": "/sys/fs/cgroup/memory/docker/*/memory.limit_in_bytes",
+    "metrics": {
+      "/netflix/linux/docker/{container:path:-2}/memory/limit": "{value}"
+    },
+    "tags": {
+      "name": "cgroup.mem.limit",
+      "atlas.dstype": "gauge"
+    },
+    "parser": {
+      "format": "table",
+      "columns": [
+        "value"
+      ]
+    }
+  },
+  {
+    "file": "/sys/fs/cgroup/memory/docker/*/memory.failcnt",
+    "metrics": {
+      "/netflix/linux/docker/{container:path:-2}/memory/failures": "{value}"
+    },
+    "tags": {
+      "name": "cgroup.mem.failures",
+      "atlas.dstype": "counter"
+    },
+    "parser": {
+      "format": "table",
+      "columns": [
+        "value"
+      ]
+    }
+  },
+  {
+    "file": "/sys/fs/cgroup/memory/docker/*/memory.stat",
+    "metrics": {
+      "/netflix/linux/docker/{container:path:-2}/memory/cache/size": "{total_cache}"
+    },
+    "tags": {
+      "name": "cgroup.mem.processUsage",
+      "id": "cache",
+      "atlas.dstype": "gauge"
+    },
+    "parser": {
+      "format": "key-value",
+      "record_sep": "\n\n",
+      "field_sep": " "
+    }
+  },
+  {
+    "file": "/sys/fs/cgroup/memory/docker/*/memory.stat",
+    "metrics": {
+      "/netflix/linux/docker/{container:path:-2}/memory/rss/size": "{total_rss}"
+    },
+    "tags": {
+      "name": "cgroup.mem.processUsage",
+      "id": "rss",
+      "atlas.dstype": "gauge"
+    },
+    "parser": {
+      "format": "key-value",
+      "record_sep": "\n\n",
+      "field_sep": " "
+    }
+  },
+  {
+    "file": "/sys/fs/cgroup/memory/docker/*/memory.stat",
+    "metrics": {
+      "/netflix/linux/docker/{container:path:-2}/memory/rss_huge/size": "{total_rss_huge}"
+    },
+    "tags": {
+      "name": "cgroup.mem.processUsage",
+      "id": "rss_huge",
+      "atlas.dstype": "gauge"
+    },
+    "parser": {
+      "format": "key-value",
+      "record_sep": "\n\n",
+      "field_sep": " "
+    }
+  },
+  {
+    "file": "/sys/fs/cgroup/memory/docker/*/memory.stat",
+    "metrics": {
+      "/netflix/linux/docker/{container:path:-2}/memory/rss_huge/size": "{total_mapped_file}"
+    },
+    "tags": {
+      "name": "cgroup.mem.processUsage",
+      "id": "mapped_file",
+      "atlas.dstype": "gauge"
+    },
+    "parser": {
+      "format": "key-value",
+      "record_sep": "\n\n",
+      "field_sep": " "
+    }
+  },
+  {
+    "file": "/sys/fs/cgroup/memory/docker/*/memory.stat",
+    "metrics": {
+      "/netflix/linux/docker/{container:path:-2}/memory/minor/pagefault": "{total_pgfault}"
+    },
+    "tags": {
+      "name": "cgroup.mem.pageFaults",
+      "id": "minor",
+      "atlas.dstype": "counter"
+    },
+    "parser": {
+      "format": "key-value",
+      "record_sep": "\n\n",
+      "field_sep": " "
+    }
+  },
+  {
+    "file": "/sys/fs/cgroup/memory/docker/*/memory.stat",
+    "metrics": {
+      "/netflix/linux/docker/{container:path:-2}/memory/major/pagefault": "{total_pgmajfault}"
+    },
+    "tags": {
+      "name": "cgroup.mem.pageFaults",
+      "id": "major",
+      "atlas.dstype": "counter"
+    },
+    "parser": {
+      "format": "key-value",
+      "record_sep": "\n\n",
+      "field_sep": " "
+    }
+  }
+]
