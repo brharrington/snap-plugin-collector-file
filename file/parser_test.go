@@ -21,6 +21,8 @@ import (
 	"testing"
 
 	. "github.com/smartystreets/goconvey/convey"
+	"io/ioutil"
+	"fmt"
 )
 
 func TestParser(t *testing.T) {
@@ -78,6 +80,22 @@ func TestParser(t *testing.T) {
 
 	Convey("parseKeyValueList", t, func() {
 		rows := parseKeyValueList("foo : 0\nbar : abc\n\nfoo : 1\nbar : 22", "\n\n", ":")
+		So(rows, ShouldResemble, []map[string]interface{}{
+			map[string]interface{}{
+				"foo": 0.0,
+				"bar": "abc",
+			},
+			map[string]interface{}{
+				"foo": 1.0,
+				"bar": 22.0,
+			},
+		})
+	})
+
+	Convey("parseKeyValueList", t, func() {
+		v, _ := ioutil.ReadFile("testdata/memory.stat")
+		rows := parseKeyValueList(string(v), "\n\n", " ")
+		fmt.Println(rows)
 		So(rows, ShouldResemble, []map[string]interface{}{
 			map[string]interface{}{
 				"foo": 0.0,

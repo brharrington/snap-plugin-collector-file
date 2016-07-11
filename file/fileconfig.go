@@ -21,6 +21,8 @@ type fileConfig struct {
 
 	Metrics map[string]string    `json:"metrics"`
 
+	Tags map[string]string          `json:"tags"`
+
 	Parser  parserConfig          `json:"parser"`
 }
 
@@ -192,20 +194,24 @@ func (c fileConfig) collectMetrics(logger *log.Logger, queries []plugin.MetricTy
 	logger.Debugf("loading %v files matching pattern '%s'", len(files), c.File)
 
 	for _, file := range files {
-		logger.Debugf("loading file %s", file)
+		logger.Debugf("loading file %s, %v", file, c.Parser)
 		parser := newParser(c.Parser)
 		records, err := parser.parseFile(file)
 		if err != nil {
 			return nil, err
 		}
+		logger.Debugf("found %d records in %s", len(records), file)
 
 		for _, record := range records {
 			for k, v := range c.Metrics {
+				logger.Debugf("creating metric %v", k)
 				ns, _ := toNamespace(k)
 				m, err := createMetric(file, record, *ns, v)
 				if err != nil {
 					return nil, err
 				}
+				m.Tags_ = c.Tags
+				logger.Debugf("created metric %s with tags %v", m.Namespace().String(), m.Tags())
 				data = append(data, *m)
 			}
 		}

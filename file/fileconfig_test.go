@@ -19,25 +19,29 @@ import (
 	"testing"
 
 	. "github.com/smartystreets/goconvey/convey"
+	"fmt"
 )
 
 func TestFileConfig(t *testing.T) {
 
 	Convey("fromJson", t, func() {
 		// TODO
-		/*configs, _ := fromJsonFile("testdata/fileconfig.json")
+		configs, _ := fromJsonFile("testdata/docker.json")
 
 		for _, c := range *configs {
-			ms, err := c.getMetricTypes()
-			fmt.Println(ms)
-			fmt.Println(err)
+			ms, _ := c.getMetricTypes()
+			for _, m := range ms {
+				fmt.Println(m.Namespace().String())
+			}
+			//fmt.Println(ms)
+			//fmt.Println(err)
 
-			mts, err := c.collectMetrics(nil)
+			/*mts, err := c.collectMetrics(nil)
 			fmt.Println(err)
 			for _, m := range mts {
 				fmt.Println(m)
-			}
-		}*/
+			}*/
+		}
 
 		//fmt.Println(config)
 		//fmt.Println(err)

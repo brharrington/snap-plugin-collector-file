@@ -82,6 +82,7 @@ func (f *fileCollector) CollectMetrics(metrics []plugin.MetricType) ([]plugin.Me
 func (f *fileCollector) GetMetricTypes(config plugin.ConfigType) ([]plugin.MetricType, error) {
 	table := config.Table()
 	fileset := table["setfile"].(ctypes.ConfigValueStr).Value
+	log.Infof("loading metrics from setfile: %v", fileset)
 	fileConfigs, err := fromJsonFile(fileset)
 	handleErr(err)
   f.fileConfigs = *fileConfigs
@@ -92,6 +93,7 @@ func (f *fileCollector) GetMetricTypes(config plugin.ConfigType) ([]plugin.Metri
 		handleErr(err)
 		metricTypes = append(metricTypes, mts...)
 	}
+	log.Infof("configured %v metrics", len(metricTypes))
 	return metricTypes, nil
 
 }

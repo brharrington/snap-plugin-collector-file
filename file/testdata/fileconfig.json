@@ -29,6 +29,9 @@
     "metrics": {
       "/test/docker/{container:path:-2}/cpu_shares": "{cpu_shares}"
     },
+    "tags": {
+      "name": "cgroup.cpu.shares"
+    },
     "parser": {
       "format": "table",
       "columns": ["cpu_shares"]
