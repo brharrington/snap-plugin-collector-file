@@ -8,7 +8,9 @@ import (
 	"github.com/intelsdi-x/snap/core"
 	"strings"
 	"errors"
+	"os"
 	"path/filepath"
+	"runtime"
 	"strconv"
 	"time"
 	log "github.com/Sirupsen/logrus"
@@ -107,6 +109,27 @@ func (c fileConfig) getMetricTypes() ([]plugin.MetricType, error) {
 	return ms, nil
 }
 
+// Return environment variables as a map.
+func getenv() map[string]interface{} {
+	envVars := map[string]interface{}{}
+	for _, e := range os.Environ() {
+		pair := strings.Split(e, "=")
+		if len(pair) == 2 {
+			envVars[pair[0]] = pair[1]
+		}
+	}
+	return envVars
+}
+
+// Default variables available in expressions. Variables from the file
+// parsing will be added to this set. If there is a name conflict the
+// the value from the file will win.
+func defaultVars() map[string]interface{} {
+	vars := getenv()
+	vars["NUM_CPU"] = runtime.NumCPU()
+	return vars
+}
+
 func createMetric(file string, vars map[string]interface{}, ns core.Namespace, valueExpr string) (*plugin.MetricType, error) {
 	for i := 0; i < len(ns); i++ {
 		if ns[i].IsDynamic() {
@@ -141,7 +164,11 @@ func createMetric(file string, vars map[string]interface{}, ns core.Namespace, v
 		}
 	}
 
-	value, err := eval(vars, valueExpr)
+	vs := defaultVars()
+	for k, v := range vars {
+		vs[k] = v
+	}
+	value, err := eval(vs, valueExpr)
 	if err != nil {
 		return nil, err
 	}
