@@ -1,0 +1,19 @@
+package: github.com/brharrington/snap-plugin-collector-file
+import:
+- package: github.com/Sirupsen/logrus
+  version: v0.10.0
+- package: github.com/intelsdi-x/snap-plugin-utilities
+  subpackages:
+  - config
+- package: github.com/intelsdi-x/snap
+  version: v0.15.0-beta
+  subpackages:
+  - control/plugin
+  - control/plugin/cpolicy
+  - core
+  - core/ctypes
+testImport:
+- package: github.com/smartystreets/goconvey
+  version: ~1.6.2
+  subpackages:
+  - convey
