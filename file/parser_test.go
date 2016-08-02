@@ -16,13 +16,12 @@
 package file
 
 import (
+	"fmt"
 	"math"
 	"regexp"
 	"testing"
 
 	. "github.com/smartystreets/goconvey/convey"
-	"io/ioutil"
-	"fmt"
 )
 
 func TestParser(t *testing.T) {
@@ -93,8 +92,7 @@ func TestParser(t *testing.T) {
 	})
 
 	Convey("parseKeyValueList", t, func() {
-		v, _ := ioutil.ReadFile("testdata/memory.stat")
-		rows := parseKeyValueList(string(v), "\n\n", " ")
+		rows := parseKeyValueList("foo 0.0\nbar abc\n\nfoo 1.0\nbar 22.0", "\n\n", " ")
 		fmt.Println(rows)
 		So(rows, ShouldResemble, []map[string]interface{}{
 			map[string]interface{}{
